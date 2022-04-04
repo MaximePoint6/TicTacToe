@@ -16,14 +16,25 @@ struct SquareView: View {
         Button(action: {
             viewModel.playerAction(index: index)
         }, label: {
-            Text(viewModel.squares[index].squareStatus == .cross ?
-                    "X" : viewModel.squares[index].squareStatus == .circle ? "O" : " ")
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(.black)
-                .frame(width: 70, height: 70, alignment: .center)
-                .background(Color.gray.opacity(0.2).cornerRadius(10))
-                .padding(4)
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 70, height: 70, alignment: .center)
+                    .padding(4)
+                if viewModel.squares[index].squareStatus == .cross {
+                    Text("X")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.green)
+                } else if viewModel.squares[index].squareStatus == .circle {
+                    Text("O")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.red)
+                } else {
+                    Text("")
+                }
+            }
         })
     }
 }
