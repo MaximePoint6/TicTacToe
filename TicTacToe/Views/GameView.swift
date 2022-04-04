@@ -18,7 +18,7 @@ struct GameView: View {
                     .font(.title)
                     .padding()
                 HStack {
-                    if viewModel.currentPlayer == "player1" {
+                    if viewModel.currentPlayer == "Player 1" {
                         Image(systemName: "chevron.forward.circle.fill")
                             .foregroundColor(.green)
                     } else {
@@ -29,7 +29,7 @@ struct GameView: View {
                          "Player 1 : \(viewModel.player1.score) point" : "Player 1 : \(viewModel.player1.score) points")
                 }
                 HStack {
-                    if viewModel.currentPlayer == "player2" {
+                    if viewModel.currentPlayer == "Player 2" {
                         Image(systemName: "chevron.forward.circle.fill")
                             .foregroundColor(.green)
                     } else {
