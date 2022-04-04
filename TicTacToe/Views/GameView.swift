@@ -14,13 +14,22 @@ struct GameView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("03:00")
-                    .font(.title)
-                    .padding()
+                Text("\(viewModel.minutes) : \(viewModel.seconds)")
+                    .onReceive(viewModel.timer) { _ in
+                        if viewModel.time > 1 {
+                            viewModel.time -= 1
+                        } else if viewModel.time == 1 {
+                            viewModel.time -= 1
+                            viewModel.timeElapsed.toggle()
+                        } else {
+                        }
+                    }
+                    .font(.system(size: 50))
+                    .padding(40)
                 HStack {
                     if viewModel.currentPlayer == "Player 1" {
                         Image(systemName: "chevron.forward.circle.fill")
-                            .foregroundColor(.green)
+                            .foregroundColor(.red)
                     } else {
                         Image(systemName: "chevron.forward.circle.fill")
                             .foregroundColor(.gray).opacity(0.20)
@@ -43,8 +52,8 @@ struct GameView: View {
                     viewModel.resetScores()
                 }, label: {
                     Text("Reset scores")
-                }).padding(.bottom, 20)
-                    .padding(.top, 5)
+                }).padding(.bottom, 40)
+                    .padding(.top, 3)
                 ForEach(0 ..< viewModel.squares.count / 3) { row in
                     HStack {
                         ForEach(0 ..< 3) { column in
@@ -53,8 +62,15 @@ struct GameView: View {
                         }
                     }
                 }
-            }.sheet(isPresented: $viewModel.gameOver) {
+                Spacer()
+            }.fullScreenCover(isPresented: $viewModel.gameOver) {
                 GameOverView()
+            }
+            .alert(viewModel.alertText, isPresented: $viewModel.timeElapsed) {
+                Button("Ok", role: .cancel) {
+                    viewModel.resetTime()
+                    viewModel.resetScores()
+                }
             }
             .navigationTitle("TicTacToe")
         }
